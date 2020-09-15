@@ -1,0 +1,172 @@
+\documentclass[14pt,oneside]{memoir}
+
+% Paks ---------------------------------------------------------
+\usepackage[utf8]{inputenc}
+\usepackage{ragged2e} % To left align the text
+\usepackage{blindtext}
+\usepackage{graphicx}
+\usepackage[a4paper, total={7in,9.5in}]{geometry} % Standard TT manual size? Need to check later
+\usepackage{hyperref} % For fillable text fields
+\usepackage{titlesec} % For editable titles
+\usepackage{xcolor}
+\usepackage{multicol}
+
+% Defs -----------------------------------------------------------
+\newdimen\baseinpchar
+\newdimen\biginpchar
+\baseinpchar=12pt
+\biginpchar=16pt
+\def\toleft{0}
+\def\tocenter{1}
+\def\toright{2}
+\def\div#1#2{\vbox{\hbox{#1}#2}} % 1:Internal, 2:External?
+
+% Changable input box
+\def\textin#1#2{\strut\div{\TextField[width=#1,borderwidth=0pt,charsize=#2,align=\tocenter]{}}{\kern1pt\hrule}}
+
+% Input box to end of line
+\def\textinfill{\textin{\linewidth}}
+
+% Standard format for listing stats
+\def\nameline#1#2#3{\textin{#1}{#3} {\small THE} \textin{#2}{#3}}
+\def\statline#1#2{#1\dotfill\textin{2em}{\baseinpchar}\texttt{#2}\linebreak}
+\def\modline#1{#1\dotfill\textin{10em}{\baseinpchar}\linebreak}
+
+% Standard Text Box
+\def\textblock#1#2#3{\TextField[multiline=true, width=#1, height=#2, borderwidth=1pt, bordercolor={0 0 0}, charsize=\baseinpchar,align=#3]{}}
+\def\singlelineblock#1#2{\strut\TextField[width=#1,borderwidth=1pt,charsize=\baseinpchar,align=#2,bordercolor={0 0 0}]{}}
+
+% Document Input Blocks
+\def\bioblock#1{\div{{\large #1} \hfill}{\textblock{\linewidth}{5\baselineskip}{\toleft}}\vspace{1em}}
+\def\bioblockXL#1#2{\div{{\large #1} \hfill}{\textblock{\linewidth}{#2\textheight}{\toleft}}}
+\def\centeredblock#1#2{\textblock{#1}{#2}{\tocenter}}
+\def\skilline{\div{\singlelineblock{0.80\linewidth}{\toleft}\singlelineblock{0.20\linewidth}{\tocenter}}{}}
+\def\techline{\div{\singlelineblock{0.30\linewidth}{\toleft}\singlelineblock{0.70\linewidth}{\toleft}}{}}
+\def\invtline{\techline} % For now?
+
+%i.e comment line
+\def\ieLine#1{{\small \textcolor{gray}{\textsl{#1}}}}
+
+%Stats
+\def\know{Knowledge}
+\def\knowAbv{KNO}
+\def\powe{Power}
+\def\poweAbv{POW}
+\def\espe{Foresight}
+\def\espeAbv{ESP}
+\def\endu{Endurance}
+\def\enduAbv{END}
+\def\sped{Speed}
+\def\spedAbv{SPD}
+\def\SceneAMP{Awesome}
+\def\ScenePAS{Awful}
+
+%%TODO 
+% Use a for loop to set up a table(?)
+
+% Print line #2 #1 number of times
+\def\repeater#1#2{
+	\newcount\tmp
+	\tmp=#1
+	\loop
+	#2
+	\advance \tmp -1
+	\ifnum \tmp>0
+	\repeat
+}
+
+%Meta -------------------------------------------------------------
+\title{{\Huge So. A. Character Outline}}
+%\author
+\hypersetup{
+    colorlinks=true,
+    linkcolor=black
+}
+
+\titleformat{\chapter}[hang]{\bfseries\Huge}{}{5pt}{\thechapter \ $\vdots$\ }[\hrule]
+\titlespacing{\chapter}{0pt}{0pt}{1em}
+\setlength{\parindent}{0pt}
+
+%Start ------------------------------
+\begin{document}
+\maketitle
+\tableofcontents
+\raggedright
+\begin{Form}
+% The doc starts here
+\chapter{Who are you?}
+
+\begin{center} % Make it big and important
+{\huge \nameline{10em}{8em}{\biginpchar}}
+\linebreak
+\end{center}
+
+\bioblock{Describe yourself.}
+\bioblock{What do you seek?}
+\bioblock{Who influenced you?}
+\bioblock{Where do you wish to go?}
+\bioblock{When did your journey begin?}
+\bioblock{Why do you push forward?}
+\bioblock{What's important to you? (e.g. people, places, etc)}
+\bioblock{...Anything else?}
+\clearpage
+\bioblockXL{Full Character Bio *Optional}{0.80}
+\clearpage
+% End 1 ----------------------- % Consider breaking this into smaller files. As of writing it's only 130 lines and it's already pretty gross to navigate thanks
+\chapter{What are your traits?}
+% Attributes | Awe/Awf (Quirks? NO! Abilities) | Skills
+\begin{multicols}{2}
+\div{Attributes\hfill}{\hrule} % \linebreak != newline. Stop trying to use it like that. pdflatex doesn't like it and I don't like that it keeps telling me it doesn't like it
+\statline{\know}{\knowAbv}
+\statline{\powe}{\poweAbv}
+\statline{\espe}{\espeAbv}
+\statline{\endu}{\enduAbv}
+\statline{\sped}{\spedAbv}
+\div{Abilities\hfill}{\hrule}\linebreak % This aligned weird. Try boxing it or a monospace font? Update! That descriptor you keep using? "Quirks"? It just doesn't like you
+\modline{\SceneAMP}
+\modline{\SceneAMP}
+\modline{\ScenePAS}
+\modline{\ScenePAS}
+\end{multicols}
+ % Skills, 2 cols of 6? Update! NO. 13. That's a good number
+\vspace{1em}
+\begin{center}
+{\large Skills}\linebreak\vspace{0.05em}\rule{0.6\linewidth}{1pt}\linebreak\vspace{0.05em}\ieLine{Name $\vdots$ KNO}
+\end{center}
+\vspace{-0.25em}
+\begin{multicols}{2}
+\repeater{26}{\skilline} % Just a reminder to put things in boxes if you want them to stay on the same line.
+\end{multicols}
+\clearpage
+% End 2 --------------------------
+\chapter{What are your techniques?}
+
+% Space out the "table" ""properly""
+\div{\makebox[0.3\linewidth][l]{\ieLine{Technique}}\makebox[0.7\linewidth][l]{\ieLine{How it works and what it uses}}}{}
+\vspace{0.5em}
+\repeater{20}{\techline}
+
+% End 3 -------------------------
+\chapter{What do you have?}
+
+% Mirror 3
+\div{\makebox[0.3\linewidth][l]{\ieLine{Item}}\makebox[0.7\linewidth][l]{\ieLine{How it works? Flavor?}}}{}
+\vspace{0.5em}
+\repeater{20}{\invtline}
+ 
+% END 4 -------------------------- % So I didn't realize it until now but "Pasture" from Fighter's Destiny has been on loop for about an hour? Why? 
+\backmatter
+\titleformat{\chapter}[hang]{\bfseries\Huge}{}{5pt}{}[\hrule]
+\chapter{Change Log}
+%% TODO
+% Name
+% Session
+% Big list o' changes
+% :w for WHOOPS
+\div{Character: \nameline{10em}{8em}{\baseinpchar}}{}
+\div{Log Date: \textin{18em}{\baseinpchar}}{}
+\vspace{1em}
+\bioblockXL{What changed?}{0.60}
+% END 5 ----------------------------
+\end{Form}
+\end{document}
