@@ -35,7 +35,7 @@
 % \baselineskip is 15pt?
 
 % Base input handler 1-Width 2-Height & Text Size(pt) 3-Align
-\def\textin#1#2#3{\strut\div{\textField[\Q{#3}\textSize{#2}]{}{#1}{#2}}{\kern1pt\hrule}}
+\def\textin#1#2#3{\strut\div{\textField[\W{0pt}\Border{0 0 0}\Q{#3}\textSize{#2}]{}{#1}{2#2}}{\kern1pt\hrule}}
 
 % Input box to end of line 1-Height
 \def\textinfill#1#2{\textin{\linewidth}{#1}{#2}}
@@ -49,8 +49,8 @@
 \def\modline#1{#1\dotfill\textin{10em}{\baseinpchar}{\tocenter}\linebreak}
 
 % Standard Text Box 1 - width 2 - height 3 - alignment
-\def\textblock#1#2#3{\fbox{\textField[\Q{#3}\textSize{\baseinpchar}\Ff{\FfMultiline}]{}{#1}{#2}}}
-\def\singlelineblock#1#2{\fbox{\textField[\Q{#2}\textSize{\baseinpchar}]{}{#1}{\baseinpchar}}}
+\def\textblock#1#2#3{\fbox{\textField[\Q{#3}\W{0pt}\Border{0 0 0}\textSize{\baseinpchar}\Ff{\FfMultiline}]{}{#1}{#2}}}
+\def\singlelineblock#1#2{\fbox{\textField[\Q{#2}\W{0pt}\Border{0 0 0}\textSize{\baseinpchar}]{}{#1}{\baselineskip}}}
 % \def\textblock#1#2#3{\fbox{\TextField[multiline=true, width=#1, height=#2, borderwidth=0pt, bordercolor={0 0 0}, charsize=\baseinpchar,align=#3]{}}}
 % \def\singlelineblock#1#2{\fbox{\strut\TextField[width=#1,borderwidth=0pt,charsize=\baseinpchar,align=#2,bordercolor={0 0 0}]{}}}
 
@@ -60,8 +60,10 @@
 
 % Standard format lines for grid stat listings
 \def\skilline{\div{\singlelineblock{0.80\linewidth}{\toleft}\singlelineblock{0.20\linewidth}{\tocenter}}{}}
-\def\techline{\div{\singlelineblock{0.30\linewidth}{\toleft}\singlelineblock{0.70\linewidth}{\toleft}}{}}
-\def\invtline{\techline} % For now?
+\def\techline{\div{\singlelineblock{0.20\linewidth}{\toleft}\singlelineblock{0.1\linewidth}{\tocenter}\singlelineblock{0.70\linewidth}{\toleft}}{}}
+\def\invtline{\div{\singlelineblock{0.30\linewidth}{\toleft}\singlelineblock{0.70\linewidth}{\toleft}}{}}
+\def\injrline{\div{\singlelineblock{0.50\linewidth}{\toleft}\singlelineblock{0.50\linewidth}{\toleft}}{}}
+
 
 %i.e comment line
 \def\ieLine#1{{\small \textcolor{gray}{\textsl{#1}}}}
@@ -107,8 +109,8 @@
 \titlespacing{\chapter}{0pt}{0pt}{1em}
 
 \setlength{\parindent}{0pt} % No paragraphs
-\setlength{\fboxrule}{1pt}
-\setlength{\fboxsep}{0.1pt} % To remove fbox padding
+\setlength{\fboxrule}{0.2pt}
+\setlength{\fboxsep}{-0.2pt} % To remove fbox padding
 %Start ------------------------------
 \begin{document}
 \previewOff
@@ -120,7 +122,7 @@
 \chapter{Who are you?}
 
 \begin{center} % Make it big and important
-{\huge \nameline{10em}{8em}{\biginpchar}}
+{\huge \nameline{10em}{8em}{\baseinpchar}}
 \linebreak
 \end{center}
 
@@ -165,7 +167,7 @@
 \chapter{What are your techniques?}
 
 % Space out the "table" ""properly""
-\div{\makebox[0.3\linewidth][l]{\ieLine{Technique}}\makebox[0.7\linewidth][l]{\ieLine{How it works and what it uses}}}{}
+\div{\makebox[0.2\linewidth][l]{\ieLine{Technique}}\makebox[0.1\linewidth][c]{\ieLine{Adv}}\makebox[0.7\linewidth][l]{\ieLine{How it works and what it uses}}}{}
 \vspace{0.5em}
 \repeater{20}{\techline}
 
@@ -177,7 +179,12 @@
 \vspace{0.5em}
 \repeater{20}{\invtline}
  
-% END 4 -------------------------- % So I didn't realize it until now but "Pasture" from Fighter's Destiny has been on loop for about an hour? Why? 
+% End 4
+\chapter{Injuries? Enhancements?}
+\div{\makebox[0.5\linewidth][l]{\ieLine{What is is}}\makebox[0.5\linewidth][l]{\ieLine{How does it effect you?}}}{}
+\vspace{0.5em}
+\repeater{20}{\injrline}
+% End 5
 \backmatter
 \titleformat{\chapter}[hang]{\bfseries\Huge}{}{5pt}{}[\hrule]
 \chapter{Change Log}
